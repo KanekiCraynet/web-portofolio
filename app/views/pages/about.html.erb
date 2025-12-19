@@ -1,0 +1,185 @@
+<% content_for :title, "About Me - Portfolio" %>
+<% content_for :description, "Learn more about my journey as a full-stack developer, my skills, and professional experience." %>
+
+<!-- Page Header -->
+<section class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white py-16 sm:py-20 lg:py-24 overflow-hidden">
+  <!-- Background decoration -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div data-animate="slide-in-up" class="text-center">
+      <span class="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-blue-200 text-sm font-medium mb-6">About Me</span>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">Get to Know Me</h1>
+      <p class="text-lg sm:text-xl text-blue-100/80 max-w-2xl mx-auto">Passionate about building innovative solutions and creating meaningful digital experiences.</p>
+    </div>
+  </div>
+</section>
+
+<div class="bg-slate-50 dark:bg-slate-900 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <!-- Profile Section -->
+    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-slate-900/5 dark:shadow-slate-900/50 overflow-hidden mb-8 lg:mb-12 border border-slate-200 dark:border-slate-700" data-animate="fade-in-scale">
+      <div class="p-6 sm:p-8 lg:p-12">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <!-- Profile Image/Avatar -->
+          <div class="flex-shrink-0">
+            <div class="relative group">
+              <div class="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center text-white text-4xl sm:text-5xl lg:text-6xl font-bold shadow-2xl shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all duration-500 group-hover:scale-105">
+                <%= @user&.name&.first&.upcase || "?" %>
+              </div>
+              <!-- Decorative ring -->
+              <div class="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl opacity-20 blur-sm"></div>
+            </div>
+          </div>
+
+          <!-- Profile Info -->
+          <div class="flex-1 text-center lg:text-left">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-2">
+              <%= @user&.name || "Developer" %>
+            </h2>
+            <p class="text-lg sm:text-xl text-blue-600 dark:text-blue-400 font-semibold mb-4">Full-Stack Developer</p>
+
+            <% if @user&.email.present? %>
+              <div class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 rounded-full text-slate-600 dark:text-slate-300 text-sm mb-6">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <%= @user&.email %>
+              </div>
+            <% end %>
+
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+              A passionate developer who loves to create elegant solutions to complex problems.
+              With a focus on clean code and user experience, I build applications that make a difference.
+            </p>
+
+            <!-- Quick Links -->
+            <div class="flex flex-wrap justify-center lg:justify-start gap-3 mt-6">
+              <%= link_to contact_path, class: "inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-xl shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-200 hover:-translate-y-0.5" do %>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Get in Touch
+              <% end %>
+              <%= link_to projects_path, class: "inline-flex items-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-600 transition-all duration-200" do %>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                View Projects
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+      <!-- Skills Section -->
+      <% if @skills_by_category.present? %>
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-slate-900/5 dark:shadow-slate-900/50 overflow-hidden border border-slate-200 dark:border-slate-700" data-animate="slide-in-left">
+          <div class="p-6 sm:p-8">
+            <div class="flex items-center gap-3 mb-8">
+              <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Skills</h2>
+            </div>
+
+            <div class="space-y-8">
+              <% @skills_by_category.each do |category, skills| %>
+                <div>
+                  <h3 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                    <%= category %>
+                  </h3>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <% skills.each do |skill| %>
+                      <div class="bg-slate-50 dark:bg-slate-900 rounded-xl p-4 hover:shadow-md transition-all duration-200 border border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800">
+                        <div class="flex justify-between items-center mb-3">
+                          <span class="font-semibold text-slate-900 dark:text-white text-sm"><%= skill.name %></span>
+                          <span class="text-xs font-medium px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full"><%= skill.proficiency %>%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
+                          <div class="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full transition-all duration-1000" style="width: <%= skill.proficiency %>%"></div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Experience Section -->
+      <% if @experiences.present? %>
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl shadow-slate-900/5 dark:shadow-slate-900/50 overflow-hidden border border-slate-200 dark:border-slate-700" data-animate="slide-in-right">
+          <div class="p-6 sm:p-8">
+            <div class="flex items-center gap-3 mb-8">
+              <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Experience</h2>
+            </div>
+
+            <div class="relative">
+              <!-- Timeline line -->
+              <div class="absolute left-4 top-2 bottom-2 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-cyan-500 rounded-full"></div>
+
+              <div class="space-y-6">
+                <% @experiences.each do |experience| %>
+                  <div class="relative pl-12 group">
+                    <!-- Timeline dot -->
+                    <div class="absolute left-2 top-1.5 w-4 h-4 bg-white dark:bg-slate-800 rounded-full border-4 border-blue-500 shadow-md group-hover:scale-110 transition-transform"></div>
+
+                    <div class="bg-slate-50 dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800 hover:shadow-lg transition-all duration-200">
+                      <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white"><%= experience.role %></h3>
+                        <span class="text-xs font-medium px-2.5 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
+                          <%= experience.start_date.strftime("%b %Y") %> - <%= experience.end_date&.strftime("%b %Y") || "Present" %>
+                        </span>
+                      </div>
+                      <p class="text-blue-600 dark:text-blue-400 font-semibold text-sm mb-2"><%= experience.company %></p>
+                      <% if experience.location.present? %>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs mb-3 flex items-center gap-1">
+                          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          </svg>
+                          <%= experience.location %>
+                        </p>
+                      <% end %>
+                      <% if experience.description.present? %>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed"><%= experience.description %></p>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Empty State if no skills and experience -->
+    <% if @skills_by_category.blank? && @experiences.blank? %>
+      <div class="text-center py-16 bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700" data-animate="fade-in">
+        <div class="w-20 h-20 mx-auto mb-6 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center">
+          <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">More Coming Soon</h3>
+        <p class="text-slate-500 dark:text-slate-400">Skills and experience details are being updated.</p>
+      </div>
+    <% end %>
+  </div>
+</div>

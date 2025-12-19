@@ -1,0 +1,14 @@
+New Contact Message
+===================
+
+From: <%= @message.name %> <<%= @message.email %>>
+Subject: <%= @message.subject %>
+
+Message:
+--------
+<%= @message.body %>
+
+Received: <%= @message.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+
+---
+This email was sent from your portfolio contact form.

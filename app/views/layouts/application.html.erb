@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Portfolio">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0066FF">
+
+    <!-- SEO Meta Tags -->
+    <%= display_meta_tags(
+      site: "Portfolio",
+      title: content_for(:title) || "Full-Stack Developer",
+      description: content_for(:description) || "Personal portfolio showcasing projects, skills, and experience",
+      keywords: content_for(:keywords) || "developer, portfolio, ruby on rails, web development",
+      separator: "|",
+      reverse: true,
+      og: {
+        title: :title,
+        description: :description,
+        type: "website",
+        url: request.original_url,
+        image: content_for(:og_image) || image_url("og-default.png")
+      },
+      twitter: {
+        card: "summary_large_image",
+        site: "@yourusername"
+      }
+    ) %>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Stylesheets -->
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+
+    <!-- JavaScript -->
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-slate-50 antialiased text-slate-900 dark:bg-slate-900 dark:text-slate-100">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-blue-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:outline-none">
+      Skip to main content
+    </a>
+
+    <!-- Navbar -->
+    <%= render NavbarComponent.new(current_user: current_user) %>
+
+    <!-- Flash Messages -->
+    <div class="fixed top-20 right-4 z-50 space-y-2 max-w-sm" id="flash-messages">
+      <% flash.each do |type, message| %>
+        <% alert_class = case type.to_s
+           when 'notice', 'success'
+             'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200'
+           when 'alert', 'error'
+             'bg-red-50 dark:bg-red-900/30 border-red-200 dark:border-red-800 text-red-800 dark:text-red-200'
+           when 'warning'
+             'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800 text-yellow-800 dark:text-yellow-200'
+           else
+             'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-200'
+           end %>
+        <div class="flash-message <%= alert_class %> border rounded-lg p-4 shadow-lg flex items-start gap-3 animate-slide-in-right"
+             role="alert"
+             data-controller="flash"
+             data-flash-remove-delay-value="5000">
+          <% if type.to_s == 'notice' || type.to_s == 'success' %>
+            <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          <% elsif type.to_s == 'alert' || type.to_s == 'error' %>
+            <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          <% else %>
+            <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          <% end %>
+          <div class="flex-1">
+            <p class="text-sm font-medium"><%= message %></p>
+          </div>
+          <button type="button"
+                  class="flex-shrink-0 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
+                  data-action="click->flash#dismiss"
+                  aria-label="Dismiss">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="flex-grow" tabindex="-1">
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <%= render FooterComponent.new(user: @user || User.admin.first) %>
+
+    <!-- Back to Top Button -->
+    <button type="button"
+            id="back-to-top"
+            class="fixed bottom-6 right-6 w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl shadow-lg shadow-blue-500/25 opacity-0 invisible transition-all duration-300 hover:from-blue-700 hover:to-blue-600 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-1 flex items-center justify-center z-40"
+            aria-label="Back to top">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+
+    <script>
+      // Back to top button
+      document.addEventListener('DOMContentLoaded', function() {
+        const backToTop = document.getElementById('back-to-top');
+
+        if (backToTop) {
+          window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+              backToTop.classList.remove('opacity-0', 'invisible');
+              backToTop.classList.add('opacity-100', 'visible');
+            } else {
+              backToTop.classList.add('opacity-0', 'invisible');
+              backToTop.classList.remove('opacity-100', 'visible');
+            }
+          });
+
+          backToTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        }
+
+        // Auto-dismiss flash messages
+        const flashMessages = document.querySelectorAll('.flash-message');
+        flashMessages.forEach(function(flash) {
+          setTimeout(function() {
+            flash.classList.add('opacity-0', 'translate-x-full');
+            setTimeout(function() {
+              flash.remove();
+            }, 300);
+          }, 5000);
+        });
+      });
+    </script>
+  </body>
+</html>

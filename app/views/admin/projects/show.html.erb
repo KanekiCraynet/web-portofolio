@@ -1,0 +1,57 @@
+<% content_for :title, @project.title %>
+
+<div class="p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900"><%= @project.title %></h1>
+    <div class="flex gap-2">
+      <%= link_to "Edit", edit_admin_project_path(@project), class: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" %>
+      <%= link_to "Back", admin_projects_path, class: "bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300" %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="grid grid-cols-2 gap-6 mb-6">
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">Status</h3>
+        <span class="px-2 py-1 text-sm rounded-full <%= @project.published? ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+          <%= @project.published? ? 'Published' : 'Draft' %>
+        </span>
+      </div>
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">Featured</h3>
+        <span class="px-2 py-1 text-sm rounded-full <%= @project.featured? ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800' %>">
+          <%= @project.featured? ? 'Yes' : 'No' %>
+        </span>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-sm font-medium text-gray-500 mb-2">Technologies</h3>
+      <p class="text-gray-900"><%= @project.technologies %></p>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-sm font-medium text-gray-500 mb-2">Description</h3>
+      <p class="text-gray-900"><%= @project.description %></p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <h3 class="text-sm font-medium text-gray-500 mb-2">Live URL</h3>
+        <% if @project.live_url.present? %>
+          <%= link_to @project.live_url, @project.live_url, target: "_blank", class: "text-blue-600 hover:underline" %>
+        <% else %>
+          <span class="text-gray-400">Not set</span>
+        <% end %>
+      </div>
+      <div>
+        <h3 class="text-sm font-medium text-gray-500 mb-2">GitHub URL</h3>
+        <% if @project.github_url.present? %>
+          <%= link_to @project.github_url, @project.github_url, target: "_blank", class: "text-blue-600 hover:underline" %>
+        <% else %>
+          <span class="text-gray-400">Not set</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

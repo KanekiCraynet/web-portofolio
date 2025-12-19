@@ -1,0 +1,39 @@
+<% content_for :title, "Message from #{@message.name}" %>
+
+<div class="p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Message Details</h1>
+    <%= link_to "Back to Messages", admin_messages_path, class: "bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="grid grid-cols-2 gap-6 mb-6">
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">From</h3>
+        <p class="text-gray-900 font-medium"><%= @message.name %></p>
+        <p class="text-gray-600"><%= @message.email %></p>
+      </div>
+      <div>
+        <h3 class="text-sm font-medium text-gray-500">Received</h3>
+        <p class="text-gray-900"><%= @message.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-sm font-medium text-gray-500 mb-2">Subject</h3>
+      <p class="text-gray-900 font-medium"><%= @message.subject %></p>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-sm font-medium text-gray-500 mb-2">Message</h3>
+      <div class="bg-gray-50 rounded-md p-4">
+        <%= simple_format(@message.body) %>
+      </div>
+    </div>
+
+    <div class="flex gap-4">
+      <%= link_to "Reply via Email", "mailto:#{@message.email}?subject=Re: #{@message.subject}", class: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" %>
+      <%= link_to "Delete", admin_message_path(@message), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700" %>
+    </div>
+  </div>
+</div>

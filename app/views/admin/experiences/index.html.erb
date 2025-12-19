@@ -1,0 +1,36 @@
+<% content_for :title, "Experiences" %>
+
+<div class="p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Experiences</h1>
+    <%= link_to "Add Experience", new_admin_experience_path, class: "bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Company</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Period</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @experiences.each do |experience| %>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900"><%= experience.company %></td>
+            <td class="px-6 py-4 whitespace-nowrap text-gray-600"><%= experience.role %></td>
+            <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+              <%= experience.start_date.strftime("%b %Y") %> - <%= experience.end_date&.strftime("%b %Y") || "Present" %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm">
+              <%= link_to "Edit", edit_admin_experience_path(experience), class: "text-blue-600 hover:text-blue-800 mr-3" %>
+              <%= link_to "Delete", admin_experience_path(experience), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-600 hover:text-red-800" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

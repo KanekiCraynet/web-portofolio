@@ -1,0 +1,42 @@
+<% content_for :title, "Messages" %>
+
+<div class="p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Messages</h1>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">From</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subject</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Received</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @messages.each do |message| %>
+          <tr class="<%= message.read? ? '' : 'bg-blue-50' %>">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="font-medium text-gray-900"><%= message.name %></div>
+              <div class="text-sm text-gray-500"><%= message.email %></div>
+            </td>
+            <td class="px-6 py-4 text-gray-600"><%= truncate(message.subject, length: 40) %></td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 py-1 text-xs rounded-full <%= message.read? ? 'bg-gray-100 text-gray-800' : 'bg-blue-100 text-blue-800' %>">
+                <%= message.read? ? 'Read' : 'Unread' %>
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-gray-500"><%= time_ago_in_words(message.created_at) %> ago</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm">
+              <%= link_to "View", admin_message_path(message), class: "text-blue-600 hover:text-blue-800 mr-3" %>
+              <%= link_to "Delete", admin_message_path(message), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-600 hover:text-red-800" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,228 @@
+<% content_for :title, @blog_post.title %>
+<% content_for :description, @blog_post.excerpt.presence || truncate(strip_tags(@blog_post.content), length: 160) %>
+
+<!-- Reading Progress Bar -->
+<div id="reading-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 z-[60] transition-all duration-150" style="width: 0%"></div>
+
+<!-- Article Header -->
+<header class="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white py-12 sm:py-16 lg:py-20 relative overflow-hidden">
+  <!-- Background decoration -->
+  <div class="absolute inset-0 opacity-20">
+    <div class="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-blue-500 rounded-full filter blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-48 sm:w-72 h-48 sm:h-72 bg-purple-500 rounded-full filter blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Back Button -->
+    <%= link_to blog_posts_path, class: "inline-flex items-center gap-2 text-blue-300 hover:text-white transition-colors mb-6 sm:mb-8 group" do %>
+      <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      <span>Back to Blog</span>
+    <% end %>
+
+    <div data-animate="slide-in-up">
+      <!-- Meta Info -->
+      <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-sm text-blue-200 mb-4 sm:mb-6">
+        <span class="inline-flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <%= @blog_post.created_at.strftime("%B %d, %Y") %>
+        </span>
+        <% if @blog_post.respond_to?(:reading_time) && @blog_post.reading_time.present? %>
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <%= @blog_post.reading_time %> min read
+          </span>
+        <% end %>
+        <% if @blog_post.updated_at > @blog_post.created_at + 1.day %>
+          <span class="inline-flex items-center gap-1.5 text-green-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Updated <%= @blog_post.updated_at.strftime("%b %d, %Y") %>
+          </span>
+        <% end %>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 sm:mb-6">
+        <%= @blog_post.title %>
+      </h1>
+
+      <!-- Excerpt -->
+      <% if @blog_post.excerpt.present? %>
+        <p class="text-lg sm:text-xl text-gray-300 max-w-3xl leading-relaxed">
+          <%= @blog_post.excerpt %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</header>
+
+<!-- Featured Image -->
+<% if @blog_post.respond_to?(:featured_image) && @blog_post.featured_image.attached? %>
+  <div class="relative -mt-8 sm:-mt-12 z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
+    <div class="aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl">
+      <%= image_tag @blog_post.featured_image, class: "w-full h-full object-cover", alt: @blog_post.title %>
+    </div>
+  </div>
+<% end %>
+
+<!-- Main Content -->
+<article class="py-8 sm:py-12 lg:py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+      <!-- Article Content -->
+      <div class="lg:col-span-8" id="article-content">
+        <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8 lg:p-10">
+          <div class="prose prose-lg sm:prose-xl max-w-none
+                      prose-headings:font-bold prose-headings:text-gray-900
+                      prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+                      prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+                      prose-p:text-gray-600 prose-p:leading-relaxed
+                      prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+                      prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:text-blue-600
+                      prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-xl prose-pre:overflow-x-auto
+                      prose-img:rounded-xl prose-img:shadow-lg
+                      prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:text-gray-700
+                      prose-ul:space-y-2 prose-ol:space-y-2
+                      prose-li:text-gray-600">
+            <%= simple_format(@blog_post.content) %>
+          </div>
+        </div>
+
+        <!-- Share Buttons -->
+        <div class="mt-8 bg-white rounded-2xl shadow-sm p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <span class="text-gray-600 font-medium">Share this article:</span>
+            <div class="flex items-center gap-3">
+              <!-- Twitter/X -->
+              <a href="https://twitter.com/intent/tweet?text=<%= CGI.escape(@blog_post.title) %>&url=<%= CGI.escape(request.original_url) %>"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-blue-500 hover:text-white transition-all"
+                 aria-label="Share on Twitter">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+
+              <!-- LinkedIn -->
+              <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= CGI.escape(request.original_url) %>&title=<%= CGI.escape(@blog_post.title) %>"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-blue-700 hover:text-white transition-all"
+                 aria-label="Share on LinkedIn">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+              </a>
+
+              <!-- Copy Link -->
+              <button type="button"
+                      id="copy-link-btn"
+                      class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-green-500 hover:text-white transition-all"
+                      aria-label="Copy link"
+                      data-url="<%= request.original_url %>">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="lg:col-span-4 mt-8 lg:mt-0">
+        <div class="lg:sticky lg:top-24 space-y-6">
+          <!-- Author Card -->
+          <div class="bg-white rounded-2xl shadow-sm p-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">About the Author</h3>
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                A
+              </div>
+              <div>
+                <p class="font-semibold text-gray-900">Author</p>
+                <p class="text-sm text-gray-500">Full-Stack Developer</p>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-gray-600 leading-relaxed">
+              Passionate developer building modern web applications with Ruby on Rails and cutting-edge technologies.
+            </p>
+          </div>
+
+          <!-- Quick Navigation -->
+          <div class="hidden lg:block bg-white rounded-2xl shadow-sm p-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Navigation</h3>
+            <div class="flex flex-col gap-2">
+              <a href="#article-content" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">
+                ↑ Back to top
+              </a>
+              <%= link_to blog_posts_path, class: "text-sm text-gray-600 hover:text-blue-600 transition-colors" do %>
+                ← All articles
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</article>
+
+<!-- Back to Blog -->
+<section class="bg-gray-50 py-12 sm:py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <%= link_to blog_posts_path, class: "inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+      </svg>
+      <span>View All Articles</span>
+    <% end %>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Reading Progress Bar
+    const progressBar = document.getElementById('reading-progress');
+    const articleContent = document.getElementById('article-content');
+
+    if (progressBar && articleContent) {
+      window.addEventListener('scroll', function() {
+        const articleTop = articleContent.offsetTop;
+        const articleHeight = articleContent.offsetHeight;
+        const windowHeight = window.innerHeight;
+        const scrollY = window.scrollY;
+
+        const start = articleTop - windowHeight;
+        const end = articleTop + articleHeight;
+        const progress = Math.max(0, Math.min(100, ((scrollY - start) / (end - start)) * 100));
+
+        progressBar.style.width = progress + '%';
+      });
+    }
+
+    // Copy Link Button
+    const copyBtn = document.getElementById('copy-link-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function() {
+        const url = this.dataset.url;
+        navigator.clipboard.writeText(url).then(() => {
+          this.classList.add('bg-green-500', 'text-white');
+          this.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+
+          setTimeout(() => {
+            this.classList.remove('bg-green-500', 'text-white');
+            this.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>';
+          }, 2000);
+        });
+      });
+    }
+  });
+</script>

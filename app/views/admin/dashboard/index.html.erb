@@ -1,0 +1,126 @@
+<% content_for :title, "Admin Dashboard" %>
+
+<div class="p-6">
+  <h1 class="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Projects -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="p-3 bg-blue-100 rounded-full">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500">Projects</p>
+          <p class="text-2xl font-bold text-gray-900"><%= @projects_count %></p>
+          <p class="text-xs text-green-600"><%= @published_projects_count %> published</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="p-3 bg-green-100 rounded-full">
+          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500">Skills</p>
+          <p class="text-2xl font-bold text-gray-900"><%= @skills_count %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experiences -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="p-3 bg-purple-100 rounded-full">
+          <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500">Experiences</p>
+          <p class="text-2xl font-bold text-gray-900"><%= @experiences_count %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center">
+        <div class="p-3 bg-red-100 rounded-full">
+          <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-gray-500">Unread Messages</p>
+          <p class="text-2xl font-bold text-gray-900"><%= @unread_messages_count %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent Messages -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Messages</h2>
+      </div>
+      <div class="p-6">
+        <% if @recent_messages.any? %>
+          <ul class="divide-y divide-gray-200">
+            <% @recent_messages.each do |message| %>
+              <li class="py-3">
+                <div class="flex justify-between">
+                  <div>
+                    <p class="font-medium text-gray-900"><%= message.name %></p>
+                    <p class="text-sm text-gray-500"><%= message.subject %></p>
+                  </div>
+                  <span class="text-xs text-gray-400"><%= time_ago_in_words(message.created_at) %> ago</span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-gray-500 text-center py-4">No messages yet</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Recent Projects -->
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Projects</h2>
+      </div>
+      <div class="p-6">
+        <% if @recent_projects.any? %>
+          <ul class="divide-y divide-gray-200">
+            <% @recent_projects.each do |project| %>
+              <li class="py-3">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <p class="font-medium text-gray-900"><%= project.title %></p>
+                    <p class="text-sm text-gray-500"><%= truncate(project.technologies.to_s, length: 50) %></p>
+                  </div>
+                  <span class="px-2 py-1 text-xs rounded-full <%= project.published? ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+                    <%= project.published? ? 'Published' : 'Draft' %>
+                  </span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-gray-500 text-center py-4">No projects yet</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

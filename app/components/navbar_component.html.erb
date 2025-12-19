@@ -1,0 +1,226 @@
+<nav class="navbar-main fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+     data-controller="navbar"
+     data-navbar-scrolled-class="navbar-scrolled">
+
+  <!-- Backdrop blur container -->
+  <div class="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 transition-all duration-300"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16 md:h-18 lg:h-20">
+
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <%= link_to root_path, class: "flex items-center gap-2.5 group" do %>
+          <div class="relative">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all duration-300 group-hover:scale-105">
+              <span class="text-white font-bold text-lg sm:text-xl">P</span>
+            </div>
+            <!-- Glow effect on hover -->
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
+          </div>
+          <span class="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent hidden sm:block">
+            Portfolio
+          </span>
+        <% end %>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center gap-1">
+        <% nav_links.each do |link| %>
+          <%= link_to link[:path], class: "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 #{active_link?(link[:path]) ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'}" do %>
+            <%= link[:name] %>
+            <% if active_link?(link[:path]) %>
+              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-600 dark:bg-blue-400 rounded-full"></span>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <!-- Desktop Right Section -->
+      <div class="hidden lg:flex items-center gap-3">
+        <!-- Dark Mode Toggle -->
+        <button type="button"
+                id="dark-mode-toggle-desktop"
+                class="relative p-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200"
+                aria-label="Toggle dark mode">
+          <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </button>
+
+        <% if @current_user&.admin? %>
+          <%= link_to "Admin", admin_root_path, class: "px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all duration-200" %>
+        <% end %>
+
+        <% if @current_user %>
+          <%= button_to "Logout", logout_path, method: :delete, class: "px-4 py-2 text-sm font-medium text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 transition-colors" %>
+        <% else %>
+          <%= link_to "Contact", contact_path, class: "px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 rounded-xl shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-200 hover:-translate-y-0.5" %>
+        <% end %>
+      </div>
+
+      <!-- Mobile/Tablet Right Section -->
+      <div class="flex lg:hidden items-center gap-2">
+        <!-- Dark Mode Toggle Mobile -->
+        <button type="button"
+                id="dark-mode-toggle-mobile"
+                class="p-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200"
+                aria-label="Toggle dark mode">
+          <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </button>
+
+        <!-- Hamburger Button -->
+        <button type="button"
+                id="mobile-menu-button"
+                class="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+                aria-label="Toggle navigation menu">
+          <!-- Hamburger icon -->
+          <svg class="h-6 w-6 hamburger-icon transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close icon (hidden by default) -->
+          <svg class="h-6 w-6 close-icon hidden transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Panel -->
+  <div class="lg:hidden hidden mobile-menu-panel" id="mobile-menu">
+    <div class="absolute top-full left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-900/5 dark:shadow-slate-900/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-1">
+        <% nav_links.each do |link| %>
+          <%= link_to link[:name], link[:path], class: "flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 #{active_link?(link[:path]) ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'}" %>
+        <% end %>
+
+        <% if @current_user&.admin? %>
+          <div class="pt-3 mt-3 border-t border-slate-200 dark:border-slate-700">
+            <%= link_to admin_root_path, class: "flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white bg-gradient-to-r from-blue-600 to-blue-500" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Admin Dashboard
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if @current_user %>
+          <div class="pt-3 mt-3 border-t border-slate-200 dark:border-slate-700">
+            <%= button_to logout_path, method: :delete, class: "flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Logout
+            <% end %>
+          </div>
+        <% else %>
+          <div class="pt-3 mt-3 border-t border-slate-200 dark:border-slate-700">
+            <%= link_to contact_path, class: "flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-500 shadow-md shadow-blue-500/25" do %>
+              Get in Touch
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Spacer to prevent content from going under fixed navbar -->
+<div class="h-16 md:h-18 lg:h-20"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.querySelector('.hamburger-icon');
+    const closeIcon = document.querySelector('.close-icon');
+    const navbar = document.querySelector('.navbar-main');
+
+    // Mobile menu toggle
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener('click', function() {
+        const isOpen = !mobileMenu.classList.contains('hidden');
+
+        if (isOpen) {
+          mobileMenu.classList.add('hidden');
+          hamburgerIcon?.classList.remove('hidden', 'rotate-90');
+          closeIcon?.classList.add('hidden');
+          menuButton.setAttribute('aria-expanded', 'false');
+        } else {
+          mobileMenu.classList.remove('hidden');
+          hamburgerIcon?.classList.add('hidden');
+          closeIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('rotate-90');
+          menuButton.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!mobileMenu.contains(e.target) && !menuButton.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+          hamburgerIcon?.classList.remove('hidden', 'rotate-90');
+          closeIcon?.classList.add('hidden');
+          menuButton.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // Navbar scroll effect
+    if (navbar) {
+      const backdrop = navbar.querySelector('.absolute');
+
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 20) {
+          navbar.classList.add('navbar-scrolled');
+          if (backdrop) {
+            backdrop.classList.add('shadow-lg', 'shadow-slate-900/5');
+            backdrop.classList.remove('border-transparent');
+          }
+        } else {
+          navbar.classList.remove('navbar-scrolled');
+          if (backdrop) {
+            backdrop.classList.remove('shadow-lg', 'shadow-slate-900/5');
+          }
+        }
+      });
+    }
+
+    // Dark mode toggle
+    const darkModeToggles = [
+      document.getElementById('dark-mode-toggle-desktop'),
+      document.getElementById('dark-mode-toggle-mobile')
+    ];
+
+    darkModeToggles.forEach(toggle => {
+      if (toggle) {
+        toggle.addEventListener('click', function() {
+          document.documentElement.classList.toggle('dark');
+          localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        });
+      }
+    });
+
+    // Check for saved dark mode preference
+    if (localStorage.getItem('darkMode') === 'true' ||
+        (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  });
+</script>
