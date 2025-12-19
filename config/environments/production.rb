@@ -57,7 +57,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("RAILS_HOST", "example.com"), protocol: "https" }
+  config.action_mailer.default_url_options = { host: ENV.fetch("RAILS_HOST", "xenzee.site"), protocol: "https" }
 
   # Allow any host in production (Railway provides dynamic URLs)
   config.hosts = nil
