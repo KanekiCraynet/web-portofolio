@@ -6,7 +6,7 @@ builder = "dockerfile"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "bin/thrust bin/rails server -b 0.0.0.0 -p $PORT"
+startCommand = "./bin/thrust ./bin/rails server -b 0.0.0.0 -p $PORT"
 healthcheckPath = "/up"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"

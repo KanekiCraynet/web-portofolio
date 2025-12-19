@@ -1,7 +1,12 @@
 #!/bin/bash -e
 
+# Enable debug logging
+echo "Starting docker-entrypoint..."
+echo "Command: $@"
+
 # If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+if [[ "$@" == *"rails server"* ]] || [[ "$@" == *"rails s"* ]]; then
+  echo "Preparing database..."
   ./bin/rails db:prepare
 fi
 
